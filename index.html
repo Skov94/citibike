@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>City bikes in Jersey city</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<script type="text/javascript" src="/d3/d3.js"></script>
+		<script src="crossfilter.v1.js"></script>
+
+
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>-->
+						<span class="logo"><img src="images/bike.svg" alt="" height = "100"/></span>
+						<h1>Jersey City Citi Bikes</h1>
+						<p>02806 - Social Data Analysis and Visualization</p>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="#first">Introduction</a></li>
+							<li><a href="#second">When do people bike?</a></li>
+							<li><a href="#third">Where do people bike to?</a></li>
+
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- First Section -->
+							<section id="first" class="main special">
+								<header class="major">
+									<h2>Introduction</h2>
+									<p>You've probably seen them out there in the big city picture - the citybikes. You've probably also wondered who these people are that would rather lend a bike, than buy one, and what they use them for? Well, we are just about to find out..</p>
+									<p>We will be exploring Citi bike trip data for trips started in Jersey City in 2017 (273.987 trips), which can be downloaded from the <a href="https://www.citibikenyc.com/system-data">Citi bike NYC webpage</a>. This dataset includes:
+									<ul>
+										<li>Start time and date</li> 
+										<li>Start station name</li> 
+										<li>End station name</li>
+										<li>Station Lat/Long</li>
+										<li>Gender (1:male, 2:female)</li>
+										<li>Year of birth</li>
+									</ul>
+									
+									<p>With this dataset, we will be able to answer tons of questions, where the visualizations below e.g. could help us answer such questions as "Which age group bikes the most?", "Which routes are most popular at certain times of the day?", "Where do young females bike on sundays?", "Which day of the week are most rides taken on?" or "Which stations are most popular?" - which all is going to help us explore who uses the bikes and what they use them for.
+									
+									<p>If you consider yourself a bit of a data-viz nerd, I've included a few links and downloading options below, that makes it possible for you to play around with the data yourself and read more about the 'behind the scenes'-stuff:</p> 
+								</header>
+								
+								<a href="all_stations_u.csv" download="dataset">Download dataset</a> &emsp;
+								<a href="https://skov94.github.io/explainer_page/">Explainer page</a> &emsp;
+								<a href="https://github.com/Skov94/explainer_page">Explainer page github</a> &emsp;
+								<a href="https://www.citibikenyc.com/system-data">Data story github</a>
+							</section>
+
+						<!-- Second Section -->
+							<section id="second" class="main special">
+								<header class="major">
+									<h2>When do people bike?</h2>
+									<p>The first visualization shows the number of started trips in Jersey City in 2017. All charts and maps are brushable, and when brushing either one all will update accordingly. I have already brushed the second chart, which tells us that 217.281 of the trips were made on a weekday. I encourage you to figure out how many trips were made on saturdays and sundays, and how the trips are distributed over the day. Additionally, I encourage you to figure out how the trips starting at the most popular stations on the map, are distributed over the day - if I should give you a hint, I would check out Sip Ave, Grove St PATH and Hamilton Park. Finally, I encourage you to use your imagination, and simply explore what you find interesting!</p>
+																		
+									<p>Below is a box, where you can choose the user segments you want the data to be based on. The selection will affect both of the visualizations.</p>
+								
+								<fieldset>
+									<legend>Select user segments</legend>
+		
+									<label class="container">Female
+										<input type="checkbox" id="femaleCheck" checked="checked">
+										<span class="checkmark"></span>
+									</label>
+
+									<label class="container">Male
+										<input type="checkbox" id="maleCheck" checked="checked">
+										<span class="checkmark"></span>
+									</label>
+									
+									<label class="age">Age:
+										<input type="number" id="min_age" min="17" max="95" value = "17" />
+									</label>
+									<label class="age">to:
+										<input type="number" id="max_age" min="17" max="95" value = "95" />
+									</label>
+									
+									&emsp; &emsp; <span id="active1">-</span> of <span id="total">-</span> trips selected.
+									 
+								</fieldset>	
+								</header>
+
+									
+								<div id = "wraps">
+									<div id="area_map"></div>
+									<div id="area_bar1"></div>
+									<div id="area_bar2"></div>
+									<div id="area_bar3"></div>
+								</div>
+								
+								<header class="major">	
+									<p>If you find something super interesting don't forget to check out the second visualization, as it updates accordingly! </p>
+								</header>
+	
+
+							</section>
+							
+						<!-- Third Section -->
+							<section id="third" class="main special">
+								<header class="major">
+									<h2>Where do people bike to?</h2>
+									<p>The second visualization shows the flow of the trips, on the 100 most popular routes, based on the selections above. The stations are sized relative to the number of bike pickups and dropoffs, and colored based on whether they mainly are a dropoff or pickoff station. This means that the direction of the routes is indicated by moving from the more green towards the more red dots. The 25 most popular routes are visualized as lines.</p>
+									<p>
+								</header>
+								
+								<div id="area_jcny_map"></div>
+								
+								<header class="major">
+									<p>If you haven't noticed it already Jersey City has a very classic commuter flow pattern, where commuters bike towards bigger cities in the morning (with better transportation options), and the opposite at the end of the day. This pattern can easily be seen by comparing the flow seen when selecting the early hour peak on the third graph (and the weekdays on the second graph), with the one seen when selecting the late hour peak.</p>
+									
+									<p>If this doesn't interest you, you could instead explore which routes people of your age and gender, prefer to bike on sundays, starting from your favorite station. Or you know, whatever floats your boat! Oh, and by the way, did you find the answers to the questions in the introduction? 
+								</header>
+								
+								
+
+							</section>
+							
+							<!-- conclusion? -->
+
+					</div>
+
+					
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+			<script type="text/javascript" src="visualizations.js"</script>
+	</body>
+</html>
